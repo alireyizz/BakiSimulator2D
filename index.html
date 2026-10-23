@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#344b49">
+    <title>Bakı Simulator 2D</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main id="app">
+    <section id="main-menu" class="screen active">
+        <div class="background-art" aria-hidden="true">
+            <svg class="baku-scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"
+                 xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="#637e7b"/>
+                        <stop offset=".48" stop-color="#d8a98b"/>
+                        <stop offset="1" stop-color="#f1d2a6"/>
+                    </linearGradient>
+                    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+                        <stop stop-color="#73928b"/>
+                        <stop offset="1" stop-color="#365e60"/>
+                    </linearGradient>
+                    <linearGradient id="stone" x1="0" y1="0" x2="0" y2="1">
+                        <stop stop-color="#d5b38a"/>
+                        <stop offset="1" stop-color="#9d8060"/>
+                    </linearGradient>
+                    <linearGradient id="flame" x1="0" y1="0" x2="1" y2="0">
+                        <stop stop-color="#425b5b"/>
+                        <stop offset=".4" stop-color="#7d9a91"/>
+                        <stop offset=".7" stop-color="#e8c2a0"/>
+                        <stop offset="1" stop-color="#526e6b"/>
+                    </linearGradient>
+                    <pattern id="paper" width="37" height="33" patternUnits="userSpaceOnUse">
+                        <path d="M4 8l8-2m9 18l7-1m-3-15l4 1" stroke="#fff0d2"
+                              stroke-width="1.5" opacity=".35" fill="none"/>
+                        <circle cx="31" cy="5" r="1" fill="#fff0d2" opacity=".3"/>
+                    </pattern>
+                    <pattern id="pavement" width="84" height="44" patternUnits="userSpaceOnUse">
+                        <path d="M0 0H84M0 22H84M25 0V22M65 22V44"
+                              fill="none" stroke="#765e47" stroke-width="1.5" opacity=".32"/>
+                    </pattern>
+                    <g id="window">
+                        <rect width="25" height="35" rx="9" fill="#67513e"/>
+                        <path d="M4 31V12a8.5 8.5 0 0 1 17 0v19z" fill="#f3d4a6"/>
+                        <path d="M12.5 4v27M4 19h17" stroke="#9c7956" stroke-width="2"/>
+                    </g>
+                    <g id="small-window">
+                        <rect width="16" height="24" rx="7" fill="#76573e"/>
+                        <path d="M3 22V8a5 5 0 0 1 10 0v14z" fill="#eacb9d"/>
+                        <path d="M8 3v19" stroke="#9a7955" stroke-width="1.5"/>
+                    </g>
+                    <g id="tree">
+                        <path d="M0 0L-3-49" stroke="#72533a" stroke-width="10" fill="none"/>
+                        <path d="M-2-23L-24-43M-3-31L20-55" stroke="#72533a" stroke-width="5" fill="none"/>
+                        <circle cx="-20" cy="-51" r="24" fill="#526d4d"/>
+                        <circle cx="12" cy="-62" r="29" fill="#647d55"/>
+                        <circle cx="-3" cy="-82" r="25" fill="#7d8e60"/>
+                        <circle cx="-27" cy="-58" r="9" fill="#91a071"/>
+                        <circle cx="16" cy="-73" r="10" fill="#a1a879"/>
+                    </g>
+                    <g id="cloud" fill="#f7e5ca" opacity=".52">
+                        <ellipse cx="0" cy="12" rx="70" ry="20"/>
+                        <circle cx="-30" cy="0" r="26"/>
+                        <circle cx="1" cy="-12" r="34"/>
+                        <circle cx="36" cy="2" r="27"/>
+                    </g>
+                </defs>
+
+                <!-- Bakı səması -->
+                <rect width="1600" height="900" fill="url(#sky)"/>
+                <circle cx="1195" cy="205" r="108" fill="#fbe7c2" opacity=".23"/>
+                <circle cx="1195" cy="205" r="77" fill="#ffebc6" opacity=".7"/>
+                <use href="#cloud" x="235" y="150" transform="translate(235 150) scale(.8) translate(-235 -150)"/>
+                <use href="#cloud" transform="translate(520 108) scale(.6)"/>
+                <use href="#cloud" transform="translate(1390 300) scale(.65)"/>
+
+                <!-- Uzaq təpələr -->
+                <path d="M0 466Q160 404 315 439T640 427T960 431T1270 398T1600 429V670H0Z"
+                      fill="#b8a48a"/>
+                <path d="M0 510Q190 444 410 474T805 456T1180 469T1600 445V680H0Z"
+                      fill="#918d78"/>
+                <path d="M0 548Q280 496 480 522T910 500T1300 515T1600 490V690H0Z"
+                      fill="#7c8573" opacity=".6"/>
+
+                <!-- Şəhərin uzaq binaları -->
+                <g fill="#c6ab88" stroke="#8d806b" stroke-width="3">
+                    <path d="M0 620V500H40V469H68V500H105V620Z"/>
+                    <path d="M90 620V530H130V484H166V530H208V620Z"/>
+                    <path d="M190 620V508H238V475H275V508H308V620Z"/>
+                    <path d="M290 620V545H330V512H378V545H410V620Z"/>
+                    <path d="M1100 620V526H1145V484H1190V526H1220V620Z"/>
+                    <path d="M1210 620V510H1255V473H1296V510H1332V620Z"/>
+                    <path d="M1330 620V535H1375V489H1415V535H1460V620Z"/>
+                    <path d="M1450 620V514H1490V478H1534V514H1600V620Z"/>
+                </g>
+
+                <!-- Alov qüllələri -->
+                <g stroke="#506361" stroke-width="4" stroke-linejoin="round">
+                    <path d="M840 510Q835 388 872 262Q903 379 891 510Z" fill="url(#flame)"/>
+                    <path d="M896 510Q904 341 949 191Q970 360 951 510Z" fill="url(#flame)"/>
+                    <path d="M951 510Q973 397 1007 284Q1024 412 1001 510Z" fill="url(#flame)"/>
+                </g>
+                <g stroke="#e9d4b5" stroke-width="3" fill="none" opacity=".9">
+                    <path d="M857 449Q855 348 876 289M876 472l15-1"/>
+                    <path d="M920 453Q926 315 948 225M912 474l40-2"/>
+                    <path d="M972 462Q990 377 1004 309M963 478l39-2"/>
+                </g>
+                <g stroke="#435a58" stroke-width="2" opacity=".65">
+                    <path d="M849 395l44-3M847 415l45-3M908 375l48-3M905 396l49-3M963 420l40-3M960 441l40-3"/>
+                </g>
+
+                <!-- İçərişəhərin divarları -->
+                <g stroke="#866749" stroke-width="4" stroke-linejoin="round">
+                    <path d="M0 680V565H45V535H75V565H115V548H160V680Z" fill="#c9a77c"/>
+                    <path d="M1240 680V566H1290V535H1325V566H1370V546H1415V680Z" fill="#c9a77c"/>
+                    <path d="M1400 680V580H1450V547H1495V580H1545V560H1600V680Z" fill="#d2b188"/>
+                </g>
+                <g stroke="#8e704e" stroke-width="2" fill="none">
+                    <path d="M10 588h145M10 608h145M1250 590h160M1250 612h160"/>
+                </g>
+
+                <!-- Köhnə Bakı evləri -->
+                <g stroke="#89694b" stroke-width="3" stroke-linejoin="round">
+                    <path d="M155 680V585H208V548H266V585H306V680Z" fill="#d8b58a"/>
+                    <path d="M295 680V600H344V564H390V600H430V680Z" fill="#c5a17a"/>
+                    <path d="M400 680V578H449V544H504V578H541V680Z" fill="#d9b990"/>
+                    <path d="M1050 680V587H1100V551H1155V587H1195V680Z" fill="#d5b188"/>
+                    <path d="M1170 680V602H1220V564H1270V602H1310V680Z" fill="#c8a37c"/>
+                </g>
+                <g>
+                    <use href="#window" x="174" y="606"/>
+                    <use href="#window" x="250" y="606"/>
+                    <use href="#small-window" x="315" y="625"/>
+                    <use href="#small-window" x="374" y="625"/>
+                    <use href="#window" x="420" y="602"/>
+                    <use href="#window" x="486" y="602"/>
+                    <use href="#window" x="1066" y="611"/>
+                    <use href="#window" x="1136" y="611"/>
+                    <use href="#small-window" x="1190" y="625"/>
+                    <use href="#small-window" x="1250" y="625"/>
+                </g>
+
+                <!-- Qız qalası -->
+                <g stroke="#866747" stroke-width="4" stroke-linejoin="round">
+                    <path d="M580 685V565Q580 520 608 494Q636 520 636 565V685Z" fill="#d4b187"/>
+                    <path d="M573 565l8-18h54l8 18z" fill="#b9946a"/>
+                    <path d="M581 540l8-17h38l9 17z" fill="#c5a17a"/>
+                    <path d="M595 501v-14h26v14z" fill="#ddbb91"/>
+                </g>
+                <g stroke="#9a7953" stroke-width="2">
+                    <path d="M585 590h46M585 612h46M585 634h46M585 656h46M585 678h46"/>
+                </g>
+                <path d="M605 487v-13h7v13" stroke="#74573c" stroke-width="4"/>
+
+                <!-- Xəzər dənizi -->
+                <path d="M0 682Q210 655 410 680T820 673T1230 681T1600 667V900H0Z" fill="url(#sea)"/>
+                <g fill="none" stroke-linecap="round">
+                    <g stroke="#d3d5b5" stroke-width="3" opacity=".62">
+                        <path d="M40 718h125m45 16h90m50-23h100m45 31h145"/>
+                        <path d="M600 719h120m30 22h150m55-25h125m60 29h145"/>
+                        <path d="M90 777h95m90-18h150m220 22h115m150-15h125m110 22h90"/>
+                    </g>
+                    <g stroke="#e9c39b" stroke-width="4" opacity=".5">
+                        <path d="M190 750h90m110 15h100m230-21h115m190 18h105"/>
+                        <path d="M1000 780h130m110-13h90m-1050 48h110"/>
+                    </g>
+                </g>
+
+                <!-- Sahil yolu -->
+                <path d="M0 790Q250 754 510 783T1010 778T1600 760V900H0Z" fill="#d5b68b"/>
+                <path d="M0 790Q250 754 510 783T1010 778T1600 760"
+                      fill="none" stroke="#f6dfb9" stroke-width="8"/>
+                <path d="M0 802Q250 766 510 795T1010 790T1600 772"
+                      fill="none" stroke="#8f785b" stroke-width="3" opacity=".65"/>
+
+                <!-- Ön plandakı daş döşəmə -->
+                <path d="M0 824Q350 787 720 817T1280 798T1600 790V900H0Z" fill="url(#stone)"/>
+                <path d="M0 824Q350 787 720 817T1280 798T1600 790V900H0Z"
+                      fill="url(#pavement)"/>
+
+                <!-- Ağaclar -->
+                <g transform="translate(100 790) scale(1.08)">
+                    <use href="#tree"/>
+                </g>
+                <g transform="translate(1470 792) scale(1.12)">
+                    <use href="#tree"/>
+                </g>
+                <g transform="translate(330 802) scale(.7)">
+                    <use href="#tree"/>
+                </g>
+                <g transform="translate(1280 802) scale(.75)">
+                    <use href="#tree"/>
+                </g>
+
+                <!-- Küçə fənərləri -->
+                <g fill="none" stroke="#414c42" stroke-width="7" stroke-linecap="round">
+                    <path d="M260 825V690q0-25 23-25h17"/>
+                    <path d="M1350 815V680q0-25-23-25h-17"/>
+                </g>
+                <g fill="#f4d5a0" stroke="#68533e" stroke-width="4">
+                    <path d="M287 655h25l-3 26h-19z"/>
+                    <path d="M1280 645h25l-3 26h-19z"/>
+                </g>
+                <g fill="#ffedc4" opacity=".25">
+                    <circle cx="299" cy="668" r="28"/>
+                    <circle cx="1292" cy="658" r="28"/>
+                </g>
+
+                <!-- Kağız teksturası və illüstrasiya çərçivəsi -->
+                <rect width="1600" height="900" fill="url(#paper)" opacity=".7"/>
+                <path d="M13 13Q400 8 800 13T1587 13L1587 887Q1200 893 800 887T13 887Z"
+                      fill="none" stroke="#fff0d2" stroke-width="4" opacity=".55"/>
+            </svg>
+        </div>
+
+        <div class="scene-overlay" aria-hidden="true"></div>
+
+        <header class="game-title">
+            <div class="title-small">BALACA BİR ŞƏHƏR HEKAYƏSİ</div>
+            <h1>BAKI <span>SIMULATOR</span></h1>
+            <div class="title-decoration">
+                <i></i><span>2D · AZƏRBAYCAN</span><i></i>
+            </div>
+        </header>
+
+        <div class="menu-content">
+            <p class="welcome-line">Şəhər səni gözləyir, dostum.</p>
+
+            <nav class="menu-buttons" aria-label="Əsas menyu">
+                <button class="menu-button play-button" data-action="play" type="button">
+                    <span class="button-symbol">➜</span>
+                    <span class="button-label">
+                        <strong>Oyna</strong>
+                        <small>Yeni bir günə başla</small>
+                    </span>
+                    <span class="button-arrow">›</span>
+                </button>
+
+                <button class="menu-button settings-button" data-action="settings" type="button">
+                    <span class="button-symbol">⚙</span>
+                    <span class="button-label">
+                        <strong>Ayarlar</strong>
+                        <small>Hər şeyi öz zövqünə görə qur</small>
+                    </span>
+                    <span class="button-arrow">›</span>
+                </button>
+
+                <button class="menu-button creators-button" data-action="creators" type="button">
+                    <span class="button-symbol">✎</span>
+                    <span class="button-label">
+                        <strong>Yapımcılar</strong>
+                        <small>Bu kiçik dünyanın yaradıcıları</small>
+                    </span>
+                    <span class="button-arrow">›</span>
+                </button>
+            </nav>
+
+            <div class="menu-caption">
+                <span></span>
+                <p>BİR ŞƏHƏR. MİN HEKAYƏ. SƏNİN BAKIN.</p>
+                <span></span>
+            </div>
+        </div>
+
+        <footer class="menu-footer">
+            <span class="studio-mark"><i></i> FI-JU STUDIO</span>
+            <span class="version-mark">VERSİYA 0.1</span>
+        </footer>
+
+        <section id="settings-panel" class="settings-panel" hidden
+                 role="dialog" aria-modal="true" aria-labelledby="settings-title">
+            <div class="settings-card">
+                <header class="settings-header">
+                    <button type="button" class="panel-back"
+                            data-action="close-settings" aria-label="Bağla">←</button>
+                    <div>
+                        <small>OYUNUNU ÖZÜNƏ UYĞUNLAŞDIR</small>
+                        <h2 id="settings-title">Ayarlar</h2>
+                    </div>
+                    <span class="settings-decoration">✿</span>
+                </header>
+
+                <div class="settings-body">
+                    <div class="setting-row">
+                        <div><label for="master-volume">Səs səviyyəsi</label><small>Ümumi səs seçimi</small></div>
+                        <output id="volume-output" for="master-volume">70%</output>
+                    </div>
+                    <input id="master-volume" type="range" min="0" max="100" value="70">
+
+                    <div class="setting-row">
+                        <div><label for="music-toggle">Musiqi</label><small>Fon musiqisi seçimi</small></div>
+                        <label class="switch"><input id="music-toggle" type="checkbox" checked><span></span></label>
+                    </div>
+
+                    <div class="setting-row">
+                        <div><label for="animations-toggle">Animasiya</label><small>Hərəkətli effektlər</small></div>
+                        <label class="switch"><input id="animations-toggle" type="checkbox" checked><span></span></label>
+                    </div>
+
+                    <div class="setting-row">
+                        <div><label for="shake-toggle">Ekran titrəməsi</label><small>Gələcək oyun effektləri</small></div>
+                        <label class="switch"><input id="shake-toggle" type="checkbox" checked><span></span></label>
+                    </div>
+
+                    <div class="setting-row">
+                        <div><label for="fullscreen-toggle">Tam ekran</label><small>Bütün ekranı istifadə et</small></div>
+                        <button id="fullscreen-toggle" class="small-action" type="button">Aç</button>
+                    </div>
+
+                    <div class="setting-row">
+                        <div><label for="quality-select">Qrafika</label><small>Vizual keyfiyyət</small></div>
+                        <select id="quality-select">
+                            <option value="low">Sadə</option>
+                            <option value="medium" selected>Normal</option>
+                            <option value="high">Yüksək</option>
+                        </select>
+                    </div>
+                </div>
+
+                <footer class="settings-footer">
+                    <button class="reset-button" type="button" data-action="reset-settings">Sıfırla</button>
+                    <span id="settings-status" role="status">Ayarlar yadda saxlanılır</span>
+                    <button class="save-button" type="button" data-action="close-settings">Hazırdır ✓</button>
+                </footer>
+            </div>
+        </section>
+
+        <div class="game-notification" role="status" aria-live="polite"></div>
+    </section>
+</main>
+<script src="js/main.js"></script>
+</body>
+</html>

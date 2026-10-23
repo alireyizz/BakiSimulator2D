@@ -1,0 +1,536 @@
+
+/*
+  BAKI SIMULATOR 2D
+  Responsive System v1.0
+  Fayl: css/responsive-system.css
+
+  Məqsəd:
+  - Mövcud dizaynı qorumaq
+  - Telefon və planşetlərə uyğunlaşmaq
+  - Portret və landscape rejimlərini dəstəkləmək
+  - Kiçik ekranlarda daşma və sıxılmanı azaltmaq
+  - Toxunma üçün rahat düymələr yaratmaq
+
+  Qeyd:
+  Bu fayl mövcud HTML/CSS elementlərini yenidən yaratmır.
+  Yalnız mövcud elementlərə uyğunlaşdırma qaydaları tətbiq edir.
+*/
+
+/* ==================================================
+   1. RESPONSIVE ƏSASLAR
+   ================================================== */
+
+:root {
+  --rs-screen-padding: clamp(12px, 3vw, 36px);
+  --rs-element-gap: clamp(10px, 2vw, 22px);
+  --rs-button-height: 52px;
+  --rs-small-button-height: 44px;
+  --rs-mobile-radius: 16px;
+  --rs-safe-top: env(safe-area-inset-top, 0px);
+  --rs-safe-right: env(safe-area-inset-right, 0px);
+  --rs-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --rs-safe-left: env(safe-area-inset-left, 0px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  min-height: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  max-width: 100%;
+}
+
+button,
+[role="button"],
+a {
+  touch-action: manipulation;
+}
+
+button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* ==================================================
+   2. ÇOX GENİŞ EKRANLAR
+   ================================================== */
+
+@media (min-width: 1600px) {
+  body {
+    --responsive-scale: 1.08;
+  }
+
+  .game-container,
+  .game-wrapper,
+  .main-container,
+  .menu-container {
+    max-width: 1500px;
+    margin-inline: auto;
+  }
+}
+
+/* ==================================================
+   3. NOUTBUK VƏ STANDART KOMPÜTER
+   ================================================== */
+
+@media (min-width: 769px) {
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 4px;
+  }
+}
+
+/* ==================================================
+   4. PLANŞET
+   ================================================== */
+
+@media (max-width: 1024px) {
+  :root {
+    --rs-screen-padding: 22px;
+    --rs-element-gap: 16px;
+  }
+
+  .game-container,
+  .game-wrapper,
+  .main-container,
+  .menu-container,
+  .settings-panel,
+  .modal-content {
+    max-width: 100%;
+  }
+
+  .game-title {
+    overflow-wrap: anywhere;
+  }
+
+  .game-scene,
+  .game-world,
+  .scene-container {
+    max-width: 100%;
+  }
+
+  .settings-panel,
+  .modal-content {
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+/* ==================================================
+   5. TELEFONLAR
+   ================================================== */
+
+@media (max-width: 768px) {
+  :root {
+    --rs-screen-padding: 16px;
+    --rs-element-gap: 12px;
+    --rs-button-height: 52px;
+    --rs-mobile-radius: 14px;
+  }
+
+  body {
+    padding-left: var(--rs-safe-left);
+    padding-right: var(--rs-safe-right);
+    padding-bottom: var(--rs-safe-bottom);
+  }
+
+  /*
+    Mövcud əsas bloklar ekranın xaricinə çıxmasın.
+    Elementlərin rəng və vizual üslubu dəyişdirilmir.
+  */
+
+  .game-container,
+  .game-wrapper,
+  .main-container,
+  .menu-container,
+  .main-menu,
+  .game-screen,
+  .screen,
+  .settings-panel,
+  .modal-content {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .game-container,
+  .game-wrapper,
+  .main-container,
+  .menu-container {
+    padding-left: var(--rs-screen-padding);
+    padding-right: var(--rs-screen-padding);
+  }
+
+  /*
+    Başlıqlar kiçik ekranlarda avtomatik ölçülənir.
+  */
+
+  .game-title {
+    max-width: 100%;
+    font-size: clamp(28px, 8vw, 56px);
+    line-height: 1.08;
+    overflow-wrap: anywhere;
+  }
+
+  h1 {
+    font-size: clamp(27px, 7vw, 46px);
+    line-height: 1.12;
+  }
+
+  h2 {
+    font-size: clamp(21px, 5.5vw, 32px);
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-size: clamp(18px, 4.5vw, 25px);
+    line-height: 1.25;
+  }
+
+  p {
+    overflow-wrap: anywhere;
+  }
+
+  /*
+    Düymələr barmaqla rahat basılsın.
+    Mövcud class adları uyğun gəlirsə tətbiq olunur.
+  */
+
+  .menu-button,
+  .game-button,
+  .primary-button,
+  .secondary-button,
+  .settings-button,
+  .action-button {
+    min-height: var(--rs-button-height);
+    max-width: 100%;
+    touch-action: manipulation;
+  }
+
+  .menu-buttons,
+  .button-group,
+  .actions,
+  .menu-actions {
+    gap: var(--rs-element-gap);
+    max-width: 100%;
+  }
+
+  /*
+    Oyun səhnəsinin eninə uyğunlaşması.
+    SVG viewBox istifadə edirsə, öz nisbətini saxlasın.
+  */
+
+  .game-scene,
+  .scene-container,
+  .game-world,
+  .world-container {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .game-scene svg,
+  .scene-container svg,
+  .game-world svg,
+  .world-container svg {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  /*
+    Modal və ayarlar paneli kiçik ekranlara sığsın.
+  */
+
+  .modal,
+  .settings-modal,
+  .settings-panel,
+  .modal-content {
+    max-width: calc(100vw - 24px);
+    max-height: calc(
+      100dvh - var(--rs-safe-top) - var(--rs-safe-bottom) - 24px
+    );
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .settings-row,
+  .setting-item,
+  .settings-option {
+    min-width: 0;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    min-height: 32px;
+    accent-color: currentColor;
+  }
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-width: 20px;
+    min-height: 20px;
+  }
+
+  /*
+    Uzun sözlər və URL-lər layout-u pozmasın.
+  */
+
+  .description,
+  .subtitle,
+  .footer-text,
+  .settings-description {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* ==================================================
+   6. DAR TELEFONLAR
+   ================================================== */
+
+@media (max-width: 420px) {
+  :root {
+    --rs-screen-padding: 12px;
+    --rs-element-gap: 10px;
+    --rs-button-height: 50px;
+  }
+
+  .game-title {
+    font-size: clamp(25px, 9vw, 38px);
+  }
+
+  .menu-buttons,
+  .button-group,
+  .actions,
+  .menu-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .menu-buttons > *,
+  .button-group > *,
+  .actions > *,
+  .menu-actions > * {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .menu-button,
+  .game-button,
+  .primary-button,
+  .secondary-button,
+  .settings-button,
+  .action-button {
+    width: 100%;
+    min-height: var(--rs-button-height);
+    padding-inline: 14px;
+  }
+
+  .modal,
+  .settings-modal,
+  .settings-panel,
+  .modal-content {
+    width: calc(100vw - 20px);
+    max-width: calc(100vw - 20px);
+    border-radius: var(--rs-mobile-radius);
+  }
+}
+
+/* ==================================================
+   7. ÇOX KİÇİK EKRANLAR
+   ================================================== */
+
+@media (max-width: 340px) {
+  :root {
+    --rs-screen-padding: 9px;
+    --rs-element-gap: 8px;
+  }
+
+  .game-title {
+    font-size: 25px;
+  }
+
+  h1 {
+    font-size: 25px;
+  }
+
+  .menu-button,
+  .game-button,
+  .primary-button,
+  .secondary-button {
+    font-size: 14px;
+    padding-inline: 10px;
+  }
+}
+
+/* ==================================================
+   8. TELEFON ÜFÜQİ REJİMDƏ
+   ================================================== */
+
+@media (max-width: 900px) and (orientation: landscape) {
+  :root {
+    --rs-screen-padding: 12px;
+    --rs-element-gap: 9px;
+  }
+
+  body {
+    min-height: 100dvh;
+  }
+
+  .game-title {
+    font-size: clamp(23px, 5vh, 38px);
+  }
+
+  .game-container,
+  .game-wrapper,
+  .main-container,
+  .menu-container {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .modal,
+  .settings-modal,
+  .settings-panel,
+  .modal-content {
+    max-height: calc(
+      100dvh - var(--rs-safe-top) - var(--rs-safe-bottom) - 16px
+    );
+  }
+}
+
+/* ==================================================
+   9. NOTCH VƏ SAFE AREA
+   ================================================== */
+
+@supports (padding: max(0px)) {
+  @media (max-width: 768px) {
+    .game-container,
+    .game-wrapper,
+    .main-container,
+    .menu-container {
+      padding-left: max(
+        var(--rs-screen-padding),
+        var(--rs-safe-left)
+      );
+
+      padding-right: max(
+        var(--rs-screen-padding),
+        var(--rs-safe-right)
+      );
+    }
+  }
+}
+
+/* ==================================================
+   10. ANİMASİYANI AZALTMAQ İSTƏYƏNLƏR
+   ================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==================================================
+   11. TOUCH EKRANLARI
+   ================================================== */
+
+@media (hover: none) and (pointer: coarse) {
+  button,
+  [role="button"],
+  .menu-button,
+  .game-button,
+  .primary-button,
+  .secondary-button {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  button:active,
+  [role="button"]:active {
+    transform: scale(0.985);
+  }
+}
+
+/* ==================================================
+   12. ÇOX AŞAĞI EKRAN HÜNDÜRLÜYÜ
+   ================================================== */
+
+@media (max-height: 500px) {
+  .game-title {
+    font-size: clamp(23px, 7vh, 38px);
+  }
+
+  .modal,
+  .settings-modal,
+  .settings-panel,
+  .modal-content {
+    max-height: 90dvh;
+    overflow-y: auto;
+  }
+}
+
+/* ==================================================
+   13. ÇAP VƏ EKRAN GÖRÜNÜŞÜ
+   ================================================== */
+
+@media print {
+  .modal,
+  .settings-modal,
+  .settings-panel {
+    display: none !important;
+  }
+
+  body {
+    min-height: auto;
+    overflow: visible;
+  }
+}
